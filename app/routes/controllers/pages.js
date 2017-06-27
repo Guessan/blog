@@ -6,7 +6,7 @@ var pages = {
 		res.render("home");
 	},
 	index: function(req, res){
-		post.find({"user": req.user.username}, function(err, post){
+		post.find({}, function(err, post){
 			if(err) {
 				console.log(err);
 			} else {

@@ -5,7 +5,9 @@ var express = require("express"),
 	session = require("express-session"),
 	path = require("path"),
 	hbs = require("hbs"),
-	routes = require("./app/routes/routes");
+	routes = require("./app/routes/routes")
+	methodOverride = require("method-override")
+	auth = require("./app/auth/passport-local");
 
 var app = express();
 
@@ -21,12 +23,15 @@ app.use(session({
 	saveUninitialized: true
 }));
 
+app.use(methodOverride('_method'));
+
 app.set("views", path.join(__dirname, "app/views"));
 app.set("view engine", "hbs");
 app.use(passport.initialize());
 app.use(passport.session());
 
-routes(app);
+auth(passport);
+routes(app, passport);
 
 mongoose.connect("mongodb://localhost/blog");
 

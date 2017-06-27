@@ -23,8 +23,8 @@ function today(){
 
 var newPost = function(req, res){
 	new post({
-		title: req.body.title,
-		post: req.body.post
+		title: req.body.blogTitle,
+		post: req.body.postBody,
 		date: {
 			month: today().month,
 			day: today().day,
@@ -41,7 +41,7 @@ var newPost = function(req, res){
 };
 
 function updateBlogPost(req, res){
-	post.update({"_id": req.query.id}, {$set: "post": req.body.postBody, "title": req.body.blogTitle}}, function(err, doc){
+	post.update({"_id": req.query.id}, {$set: {"post": req.body.postBody, "title": req.body.blogTitle}}, function(err, doc){
 		if (err){
 			res.redirect("/index?update=fail");
 		} else {
@@ -80,7 +80,7 @@ var blogPages = {
 };
 
 
-exports.create = createBlogPost;
+exports.create = newPost;
 exports.update = updateBlogPost;
 exports.delete = deleteBlogPost;
 
